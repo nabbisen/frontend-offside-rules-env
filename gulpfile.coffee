@@ -16,14 +16,21 @@ path =
     css: './dest/css'
     js: './dest/js'
 
+tolerateError = (error) ->
+  console.log error.toString()
+  @emit('end')
+  return
+
 gulp.task 'pug', () ->
   gulp.src ["#{path.src.html}"]
     .pipe pug()
+    .on 'error', tolerateError
     .pipe gulp.dest "#{path.dest.html}"
 
 gulp.task 'stylus', () ->
   gulp.src ["#{path.src.css}"]
     .pipe stylus()
+    .on 'error', tolerateError
     .pipe autoprefixer()
     .pipe gulp.dest "#{path.dest.css}"
 
@@ -31,6 +38,7 @@ gulp.task 'coffee', () ->
   gulp.src ["#{path.src.js}"]
     .pipe coffee
       bare:true
+    .on 'error', tolerateError
     .pipe gulp.dest "#{path.dest.js}"
 
 gulp.task 'build', ['pug', 'stylus', 'coffee']
