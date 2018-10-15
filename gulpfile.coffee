@@ -3,6 +3,7 @@ pug = require 'gulp-pug'
 stylus = require 'gulp-stylus'
 autoprefixer = require 'gulp-autoprefixer'
 coffee = require 'gulp-coffee'
+browserSync = require 'browser-sync'
 
 path =
   src:
@@ -34,5 +35,24 @@ gulp.task 'coffee', () ->
 
 gulp.task 'build', ['pug', 'stylus', 'coffee']
 
-gulp.task 'default', ['build']
+gulp.task 'src-watch', () ->
+  gulp.watch "#{path.src.html}", ['pug']
+  gulp.watch "#{path.src.css}", ['stylus']
+  gulp.watch "#{path.src.js}", ['coffee']
+
+gulp.task 'dest-watch', () ->
+  gulp.watch "#{path.dest.html}/**/*.*", ['browser-sync-reload']
+
+gulp.task 'browser-sync', () ->
+  browserSync.init
+    server:
+      baseDir: 'dest',
+      index: 'index.html'
+
+gulp.task 'browser-sync-reload', () ->
+  browserSync.reload()
+
+gulp.task 'watch', ['browser-sync', 'src-watch', 'dest-watch'] 
+
+gulp.task 'default', ['watch']
 

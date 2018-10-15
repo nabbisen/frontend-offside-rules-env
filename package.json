@@ -13,6 +13,7 @@
     "gulp-pug",
     "gulp-stylus",
     "gulp-coffee",
-    "gulp-autoprefixer"
+    "gulp-autoprefixer",
+    "browser-sync"
   ]
 }
