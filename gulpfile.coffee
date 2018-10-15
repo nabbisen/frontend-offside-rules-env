@@ -26,6 +26,7 @@ gulp.task 'pug', () ->
     .pipe pug()
     .on 'error', tolerateError
     .pipe gulp.dest "#{path.dest.html}"
+  return
 
 gulp.task 'stylus', () ->
   gulp.src ["#{path.src.css}"]
@@ -33,6 +34,7 @@ gulp.task 'stylus', () ->
     .on 'error', tolerateError
     .pipe autoprefixer()
     .pipe gulp.dest "#{path.dest.css}"
+  return
 
 gulp.task 'coffee', () ->
   gulp.src ["#{path.src.js}"]
@@ -40,6 +42,7 @@ gulp.task 'coffee', () ->
       bare:true
     .on 'error', tolerateError
     .pipe gulp.dest "#{path.dest.js}"
+  return
 
 gulp.task 'build', ['pug', 'stylus', 'coffee']
 
@@ -47,18 +50,22 @@ gulp.task 'src-watch', () ->
   gulp.watch "#{path.src.html}", ['pug']
   gulp.watch "#{path.src.css}", ['stylus']
   gulp.watch "#{path.src.js}", ['coffee']
+  return
 
 gulp.task 'dest-watch', () ->
   gulp.watch "#{path.dest.html}/**/*.*", ['browser-sync-reload']
+  return
 
 gulp.task 'browser-sync', () ->
   browserSync.init
     server:
       baseDir: 'dest',
       index: 'index.html'
+  return
 
 gulp.task 'browser-sync-reload', () ->
   browserSync.reload()
+  return
 
 gulp.task 'watch', ['browser-sync', 'src-watch', 'dest-watch'] 
 
