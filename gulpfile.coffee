@@ -67,7 +67,7 @@ gulp.task 'browser-sync-reload', () ->
   browserSync.reload()
   return
 
-gulp.task 'watch', ['browser-sync', 'src-watch', 'dest-watch'] 
+gulp.task 'watch', ['build', 'browser-sync', 'src-watch', 'dest-watch'] 
 
 gulp.task 'default', ['watch']
 
