@@ -44,16 +44,16 @@ gulp.task 'coffee', () ->
     .pipe gulp.dest "#{path.dest.js}"
   return
 
-gulp.task 'build', ['pug', 'stylus', 'coffee']
+gulp.task 'build', gulp.parallel('pug', 'stylus', 'coffee')
 
 gulp.task 'src-watch', () ->
-  gulp.watch "#{path.src.html}", ['pug']
-  gulp.watch "#{path.src.css}", ['stylus']
-  gulp.watch "#{path.src.js}", ['coffee']
+  gulp.watch "#{path.src.html}", gulp.task('pug')
+  gulp.watch "#{path.src.css}", gulp.task('stylus')
+  gulp.watch "#{path.src.js}", gulp.task('coffee')
   return
 
 gulp.task 'dest-watch', () ->
-  gulp.watch "#{path.dest.html}/**/*.*", ['browser-sync-reload']
+  gulp.watch "#{path.dest.html}/**/*.*", gulp.task('browser-sync-reload')
   return
 
 gulp.task 'browser-sync', () ->
@@ -67,7 +67,6 @@ gulp.task 'browser-sync-reload', () ->
   browserSync.reload()
   return
 
-gulp.task 'watch', ['build', 'browser-sync', 'src-watch', 'dest-watch'] 
+gulp.task 'watch', gulp.parallel('build', 'browser-sync', 'src-watch', 'dest-watch')
 
-gulp.task 'default', ['watch']
-
+gulp.task 'default', gulp.task('watch')
